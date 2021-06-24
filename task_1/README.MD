@@ -1,0 +1,1 @@
+docker build --tag task:1 . docker run --name task1 -d -p 8080:80 task:1

@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+
+
+  db:
+    image: postgres:11.0-alpine
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: flask_user
+      POSTGRES_DB: db_flask
+      POSTGRES_PASSWORD: flask_user
+    ports:
+      - 5432:5432
+
+  api:
+    depends_on:
+      - db
+    build: .
+    container_name: api
+    restart: always
+    environment:
+      POSTGRE_URI: postgresql://flask_user:flask_user@db:5432/db_flask
+    ports:
+      - 5000:5000
+    command: sh -c "flask db upgrade&&python run.py"
